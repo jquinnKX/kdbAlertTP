@@ -4,7 +4,7 @@ TP set-up for test Alert Monitor system
 This framework is an expansion of the skeleton TP framework available at
 https://code.kx.com/v2/wp/building_real_time_tick_subscribers.pdf
 
-It has been built on to replay our cryptocurrency data set with the original timestamp but with today’s date in a live manner.  Each routine and execution-point (e.g. 'intraday 1 minute' + 'wj with timestamps') test was run in it’s own alert engine process.  If running windows, place the contents of kdbAlertTP on gitbut in a single location, point your windows terminal to that location, and run
+It has been built on to replay our cryptocurrency data set with the original timestamp but with today’s date in a live manner.  Each routine and execution-point (e.g. 'intraday 1 minute' + 'wj with timestamps') test was run in it’s own alert engine process.  If running windows, place the contents of kdbAlertTP on gitbut in a single location, extract the 7z data, point your windows terminal to that location, and run
 
 q startUp.q
 
