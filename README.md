@@ -13,6 +13,7 @@ All required processes for the test will be auto-started and a process status ta
 name         port  handle PID   lastHeartBeatReceived
 -------------------------------------------------------------
 master       55555 0      15248 2019.06.25D10:36:09.641313000
+
 alertMonitor 999   604    12776 2019.06.25D10:36:09.643313000
 tp           5000  612    11828 2019.06.25D10:36:09.643313000
 hdb          5001  624    13804 2019.06.25D10:36:09.643313000
