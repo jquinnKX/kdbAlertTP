@@ -1,0 +1,494 @@
+
+/TP
+Microsoft Windows [Version 10.0.17134.706]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\jason>cd C:\w32\kdbTickBuild
+The system cannot find the path specified.
+
+C:\Users\jason>cd C:\q\w32\kdbTickBuild
+
+C:\q\w32\kdbTickBuild>dir
+ Volume in drive C is Windows
+ Volume Serial Number is FA33-51B4
+
+ Directory of C:\q\w32\kdbTickBuild
+
+09/05/2019  19:53    <DIR>          .
+09/05/2019  19:53    <DIR>          ..
+08/05/2019  23:31               713 r.q
+08/05/2019  23:31               570 README.md
+09/05/2019  19:53    <DIR>          tick
+09/05/2019  19:51             2,618 tick.q
+08/05/2019  23:31               480 u.q
+               4 File(s)          4,381 bytes
+               3 Dir(s)   1,450,000,384 bytes free
+
+C:\q\w32\kdbTickBuild>q tick.q schema C:/OnDiskDB -p 5000
+KDB+ 3.4 2017.02.11 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 3977MB jason laptop-rnakd9nc 192.168.1.131 NONEXPIRE
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/wiki/Tutorials
+To exit, type \\
+To remove this startup msg, edit q.q
+"kdb+tick 2.8 2014.03.12"
+k){0N!x y}
+'tick/u.q. OS reports: The system cannot find the path specified.
+@
+"q"
+"\\l tick/u.q"
+q))\
+q)\\
+
+C:\q\w32\kdbTickBuild>q tick.q schema C:/OnDiskDB -p 5000
+KDB+ 3.4 2017.02.11 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 3977MB jason laptop-rnakd9nc 192.168.1.131 NONEXPIRE
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/wiki/Tutorials
+To exit, type \\
+To remove this startup msg, edit q.q
+"kdb+tick 2.8 2014.03.12"
+q).u
+        | ::
+init    | {w::t!(count t::tables`.)#()}
+del     | {w[x]_:w[x;;0]?y}
+sel     | {$[`~y;x;select from x where sym in y]}
+pub     | {[t;x]{[t;x;w]if[count x:sel[x]w 1;(neg first w)(`upd;t;x)]}[t;x]ea..
+add     | {$[(count w x)>i:w[x;;0]?.z.w;.[`.u.w;(x;i;1);union;y];w[x],:enlist..
+sub     | {if[x~`;:sub[;y]each t];if[not x in t;'x];del[x].z.w;add[x;y]}
+end     | {(neg union/[w[;;0]])@\:(`.u.end;x)}
+ld      | {if[not type key L::`$(-10_string L),string x;.[L;();:;()]];i::j::-..
+tick    | {init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[..
+endofday| {end d;d+:1;if[l;hclose l;l::0(`.u.ld;d)]}
+ts      | {if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]}
+upd     | {[t;x]
+        ts"d"$a:.z.P;
+        if[not -16=type first first x;..
+t       | `s#`quote`trade
+w       | `s#`quote`trade!(();())
+d       | 2019.05.09
+l       | 560i
+L       | `:C:/OnDiskDB/schema2019.05.09
+j       | 0
+i       | 0
+q).u.w
+quote|
+trade|
+q)\\
+
+C:\q\w32\kdbTickBuild>q tick.q schema C:/OnDiskDB -p 5000
+KDB+ 3.4 2017.02.11 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 3977MB jason laptop-rnakd9nc 192.168.1.131 NONEXPIRE
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/wiki/Tutorials
+To exit, type \\
+To remove this startup msg, edit q.q
+"kdb+tick 2.8 2014.03.12"
+k){0N!x y}
+'tick/schema.q. OS reports: The system cannot find the path specified.
+@
+"q"
+"system\"l tick/\",(src:first .z.x,enlist\"sym\"),\".q\""
+q))\\
+
+C:\q\w32\kdbTickBuild>q tick.q sym C:/OnDiskDB -p 5000
+KDB+ 3.4 2017.02.11 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 3977MB jason laptop-rnakd9nc 192.168.1.131 NONEXPIRE
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/wiki/Tutorials
+To exit, type \\
+To remove this startup msg, edit q.q
+"kdb+tick 2.8 2014.03.12"
+q).Q.w
+k){`used`heap`peak`wmax`mmap`mphy`syms`symw!(."\\w"),."\\w 0"}
+q).z.w
+0i
+q).u.w#
+#[`s#`quote`trade!(();())]
+q).u.w
+quote|
+trade|
+q).u
+        | ::
+init    | {w::t!(count t::tables`.)#()}
+del     | {w[x]_:w[x;;0]?y}
+sel     | {$[`~y;x;select from x where sym in y]}
+pub     | {[t;x]{[t;x;w]if[count x:sel[x]w 1;(neg first w)(`upd;t;x)]}[t;x]ea..
+add     | {$[(count w x)>i:w[x;;0]?.z.w;.[`.u.w;(x;i;1);union;y];w[x],:enlist..
+sub     | {if[x~`;:sub[;y]each t];if[not x in t;'x];del[x].z.w;add[x;y]}
+end     | {(neg union/[w[;;0]])@\:(`.u.end;x)}
+ld      | {if[not type key L::`$(-10_string L),string x;.[L;();:;()]];i::j::-..
+tick    | {init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[..
+endofday| {end d;d+:1;if[l;hclose l;l::0(`.u.ld;d)]}
+ts      | {if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]}
+upd     | {[t;x]
+        ts"d"$a:.z.P;
+        if[not -16=type first first x;..
+t       | `s#`quote`trade
+w       | `s#`quote`trade!(();())
+d       | 2019.05.09
+l       | 548i
+L       | `:C:/OnDiskDB/sym2019.05.09
+j       | 0
+i       | 0
+q)\\
+
+C:\q\w32\kdbTickBuild>q tick.q sym C:/OnDiskDB -p 5000
+KDB+ 3.4 2017.02.11 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 3977MB jason laptop-rnakd9nc 192.168.1.131 NONEXPIRE
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/wiki/Tutorials
+To exit, type \\
+To remove this startup msg, edit q.q
+"kdb+tick 2.8 2014.03.12"
+q).u
+        | ::
+init    | {w::t!(count t::tables`.)#()}
+del     | {w[x]_:w[x;;0]?y}
+sel     | {$[`~y;x;select from x where sym in y]}
+pub     | {[t;x]{[t;x;w]if[count x:sel[x]w 1;(neg first w)(`upd;t;x)]}[t;x]ea..
+add     | {$[(count w x)>i:w[x;;0]?.z.w;.[`.u.w;(x;i;1);union;y];w[x],:enlist..
+sub     | {if[x~`;:sub[;y]each t];if[not x in t;'x];del[x].z.w;add[x;y]}
+end     | {(neg union/[w[;;0]])@\:(`.u.end;x)}
+ld      | {if[not type key L::`$(-10_string L),string x;.[L;();:;()]];i::j::-..
+tick    | {init[];if[not min(`time`sym~2#key flip value@)each t;'`timesym];@[..
+endofday| {end d;d+:1;if[l;hclose l;l::0(`.u.ld;d)]}
+ts      | {if[d<x;if[d<x-1;system"t 0";'"more than one day?"];endofday[]]}
+upd     | {[t;x]
+        ts"d"$a:.z.P;
+        if[not -16=type first first x;..
+t       | `s#`quote`trade
+w       | `s#`quote`trade!(();())
+d       | 2019.05.09
+l       | 568i
+L       | `:C:/OnDiskDB/sym2019.05.09
+j       | 0
+i       | 0
+q)trade
+time sym price size
+-------------------
+q)quote
+time sym bid ask bsize asize
+----------------------------
+q)meta trade
+c    | t f a
+-----| -----
+time | n
+sym  | s   g
+price| f
+size | i
+q).u.upd
+{[t;x]
+        ts"d"$a:.z.P;
+        if[not -16=type first first x;a:"n"$a;x:$[0>type first x;a,x;(enlist(..
+        f:key flip value t;
+        pub[t;$[0>type first x;enlist f!x;flip f!x]];
+        if[l;
+            l enlist (`upd;t;x);
+            i+:1
+        ];
+    }
+q)meta[trade]=meta([]time:.z.p;sym:`a`a;price:1.2;size:100 200)
+c    | t f a
+-----| -----
+time | 0 1 1
+sym  | 1 1 0
+price| 1 1 1
+size | 0 1 1
+q)meta[trade]
+c    | t f a
+-----| -----
+time | n
+sym  | s   g
+price| f
+size | i
+q)meta([]time:.z.p;sym:`a`a;price:1.2;size:100 200)
+c    | t f a
+-----| -----
+time | p
+sym  | s
+price| f
+size | j
+q)meta([]time:.z.z;sym:`a`a;price:1.2;size:100 200)
+c    | t f a
+-----| -----
+time | z
+sym  | s
+price| f
+size | j
+q)meta([]time:.z.t;sym:`a`a;price:1.2;size:100 200)
+c    | t f a
+-----| -----
+time | t
+sym  | s
+price| f
+size | j
+q)meta([]time:0D+.z.t;sym:`a`a;price:1.2;size:100 200)
+c    | t f a
+-----| -----
+time | n
+sym  | s
+price| f
+size | j
+q)meta[trade]=meta([]time:0D+.z.t;sym:`a`a;price:1.2;size:100 200i)
+c    | t f a
+-----| -----
+time | 1 1 1
+sym  | 1 1 0
+price| 1 1 1
+size | 1 1 1
+q).u.l
+568i
+q).u.upd[`trade;([]time:0D+.z.t;sym:`a`a;price:1.2;size:100 200i)]
+{[t;x]
+        ts"d"$a:.z.P;
+        if[not -16=type first first x;a:"n"$a;x:$[0>type first x;a,x;(enlist(count first x)#a),x]];
+        f:key flip value t;
+        pub[t;$[0>type first x;enlist f!x;flip f!x]];
+        if[l;
+            l enlist (`upd;t;x);
+            i+:1
+        ];
+    }
+'length
+!
+`time`sym`price`size
++`time`sym`price`size!(0D19:02:51.808000000 0D19:02:51.808000000;`a`a;1.2 1.2..
+q.u))\
+q).u.upd[`trade;value first ([]time:0D+.z.t;sym:`a`a;price:1.2;size:100 200i)]
+q).u.upd[`trade;value first ([]time:0D+.z.t;sym:`a`a;price:1.2;size:100 200i)]
+q)trade
+time sym price size
+-------------------
+q)test
+'test
+q)test:get`$"C:\OnDiskDB\sym2019.05.09"
+'"C:\OnDiskDB\sym2019.05.09"
+q)test
+'test
+q)test:get hsym`$"C:\OnDiskDB\sym2019.05.09"
+'"C:\OnDiskDB\sym2019.05.09"
+q)hsym`$"C:\OnDiskDB\sym2019.05.09"
+'"C:\OnDiskDB\sym2019.05.09"
+q)`$"C:\OnDiskDB\sym2019.05.09"
+'"C:\OnDiskDB\sym2019.05.09"
+q)"C:\OnDiskDB\sym2019.05.09"
+'"C:\OnDiskDB\sym2019.05.09"
+q)
+q)
+q)"jason"
+"jason"
+q)"C:\OnDiskDB"
+'"C:\OnDiskDB"
+q)"C:\\OnDiskDB"
+"C:\\OnDiskDB"
+q)"C:/OnDiskDB"
+"C:/OnDiskDB"
+q)"C:/OnDiskDB/sym2019.05.09"
+"C:/OnDiskDB/sym2019.05.09"
+q)get`$"C:/OnDiskDB/sym2019.05.09"
+'C:/OnDiskDB/sym2019.05.09
+q)hsym`$"C:/OnDiskDB/sym2019.05.09"
+`:C:/OnDiskDB/sym2019.05.09
+q)get hsym`$"C:/OnDiskDB/sym2019.05.09"
+`upd `trade (0D19:03:44.288000000;`a;1.2;100i)
+`upd `trade (0D19:04:14.704000000;`a;1.2;100i)
+q)test:get hsym`$"C:/OnDiskDB/sym2019.05.09"
+q)test
+`upd `trade (0D19:03:44.288000000;`a;1.2;100i)
+`upd `trade (0D19:04:14.704000000;`a;1.2;100i)
+q)first test
+`upd
+`trade
+(0D19:03:44.288000000;`a;1.2;100i)
+q)\p
+5000i
+q).global.name:`tp
+q)
+
+
+
+
+
+/HDB
+Microsoft Windows [Version 10.0.17134.706]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\jason>cd C:/q/w32
+
+C:\q\w32>dir
+ Volume in drive C is Windows
+ Volume Serial Number is FA33-51B4
+
+ Directory of C:\q\w32
+
+09/05/2019  19:52    <DIR>          .
+09/05/2019  19:52    <DIR>          ..
+20/03/2017  13:13    <DIR>          2017.03.20
+26/03/2017  08:55               466 54321
+10/12/2017  11:24            10,498 binarySplitNumericalAttribute.q
+30/11/2017  20:21             3,033 binarySplitNumericalAttributeEACH.q
+01/12/2017  15:33             3,380 binarySplitNumericalAttributeLRRetryV0.q
+01/12/2017  15:37             3,365 binarySplitNumericalAttributeLRRetryV1.q
+02/12/2017  19:55             4,427 binarySplitNumericalAttributeORIGINALLRVERSION.q
+30/11/2017  15:51             4,372 binarySplitNumericalAttributeUsingTable.q
+30/11/2017  15:51             4,529 binarySplitNumericalAttributeUsingTableNoLoop.q
+02/12/2017  14:59             4,957 binarySplitNumericalAttributeUsingTableNoLoop2.q
+30/11/2017  16:16             4,942 binarySplitNumericalAttributeUsingTableNoLoop3.q
+02/12/2017  19:53             3,532 binarySplitNumericalAttributeUsingVectors.q
+02/12/2017  16:59             3,074 binarySplitNumericalAttributeUsingVectors0.q
+02/12/2017  16:56             3,363 binarySplitNumericalAttributeUsingVectors2.q
+10/12/2017  18:52             9,853 binarySplitNumericalAttribute_workingV1.q
+20/02/2017  14:38               800 Book.csv
+10/12/2017  20:13         4,264,948 ccdata.csv
+10/12/2017  20:15         1,418,083 ccdata_10000.csv
+10/12/2017  20:07           283,718 ccdata_2000.csv
+10/12/2017  19:39            71,289 ccdata_500.csv
+23/11/2017  13:52         2,897,209 ccdefault.csv
+14/12/2017  15:18                42 cd.q
+11/10/2017  18:41               413 classify.q
+11/10/2017  18:44               413 classifyWithOver.q
+15/06/2017  15:46               285 cmtplog.log
+09/12/2017  18:30               271 combineBranchLabels.q
+09/12/2017  18:30               548 combineBranchWeights.q
+09/12/2017  18:32             4,320 combineNominalAttributeValuesIntoGroupsWhileHigherGainFound.q
+14/12/2017  20:32            11,941 Comparison.png
+11/10/2017  13:46               553 computeInfoGain.q
+20/02/2017  14:37               193 Currency.csv
+10/12/2017  19:38         4,264,948 default of credit card clients.csv
+23/11/2017  13:50         5,549,568 default of credit card clients.xls
+03/10/2017  13:23               320 DTdata.csv
+04/10/2017  18:32            21,828 DTdata_rounds.xlsx
+03/12/2017  16:55            10,935 DTPack_2017.12.03.7z
+04/12/2017  20:09            11,702 DTPack_2017.12.04.7z
+05/12/2017  20:18            49,334 DTPack_2017.12.05.7z
+06/12/2017  20:16            83,480 DTPack_2017.12.06.7z
+20/02/2017  15:03                84 family.csv
+09/12/2017  18:28               189 generatePairWiseCombinationIndices.q
+03/12/2017  11:12             2,808 generateTreeC45.q
+03/12/2017  06:30             2,117 generateTreeC45.txt
+10/12/2017  20:19             4,746 generateTreeC45MASTER.q
+10/12/2017  20:03             7,956 generateTreeC45SCAN.q
+08/12/2017  15:34               667 generateTreeC45SCAN_workingV1.q
+10/12/2017  11:05             1,878 getBestGainDetails.q
+08/12/2017  16:34               946 getBestGainDetails_workingV1.q
+10/12/2017  20:03               870 getBestGainDetails_workingV2.q
+11/10/2017  13:57               930 ID3.q
+11/10/2017  13:58             1,239 ID3V2.q
+09/05/2019  20:35    <DIR>          kdbTickBuild
+20/02/2017  14:35             1,379 Legal_Entity.csv
+14/12/2017  14:51    <DIR>          LIN AGL
+16/12/2017  10:14    <DIR>          LIN ALG
+11/10/2017  13:52                98 loadDTdata.q
+11/10/2017  13:51                66 loadDTdata.txt
+15/06/2017  14:10               160 log1.log
+10/12/2017  20:08            13,713 narySplitNominalAttribute.q
+02/12/2017  23:41             7,493 narySplitNominalAttributeCHECK.q
+02/12/2017  23:40             7,533 narySplitNominalAttributeORIGINALVERSION.q
+05/12/2017  12:49             8,985 narySplitNominalAttribute_preAddingUnknownLogic.q
+06/12/2017  20:16            72,447 naryTestCase.xlsx
+23/09/2017  05:34           234,366 pendigits.tes
+23/09/2017  05:34           502,098 pendigits.tra
+08/12/2017  15:30             4,906 processEachBranch.q
+08/12/2017  14:16             6,304 processEachBranch_workingV1.q
+20/02/2017  14:35             1,167 Product.csv
+11/02/2017  15:50           463,872 q.exe
+26/02/2017  10:33             1,006 readInCommands.txt
+06/12/2017  20:10             4,209 returnFunctionDefinitionForbinarySplitNumericalAttributeUsingVectors.q
+06/12/2017  20:10             1,658 returnFunctionDefinitionFornarySplitNumericalAttributeUsingVectors.q
+10/12/2017  18:31            63,225 runtimes after incremental changes.txt
+20/02/2017  14:38    <DIR>          SCHEMA
+10/12/2017  14:15            12,079 test.q
+29/11/2017  18:01             1,093 test2.q
+31/05/2017  16:54                40 testThis.csv
+20/02/2017  14:33             1,787 Trade.csv
+08/06/2017  16:22                33 trade.q
+              74 File(s)     20,445,079 bytes
+               7 Dir(s)   1,132,732,416 bytes free
+
+C:\q\w32>cd kdbTickBuild
+
+C:\q\w32\kdbTickBuild>dir
+ Volume in drive C is Windows
+ Volume Serial Number is FA33-51B4
+
+ Directory of C:\q\w32\kdbTickBuild
+
+09/05/2019  20:35    <DIR>          .
+09/05/2019  20:35    <DIR>          ..
+09/05/2019  20:34               245 hdb.q
+08/05/2019  23:31               570 README.md
+09/05/2019  20:26               809 SampleFeed.q
+09/05/2019  20:35    <DIR>          tick
+09/05/2019  19:55             2,615 tick.q
+               4 File(s)          4,239 bytes
+               3 Dir(s)   1,132,605,440 bytes free
+
+C:\q\w32\kdbTickBuild>q hdb.q C:/OnDiskDB/sym -p 5002
+KDB+ 3.4 2017.02.11 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 3977MB jason laptop-rnakd9nc 192.168.1.131 NONEXPIRE
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/wiki/Tutorials
+To exit, type \\
+To remove this startup msg, edit q.q
+k){0N!x y}
+'[
+@
+"q"
+"@[{system\"l \",x};hdb;{show \"Error message -  \",x;exit 0}"
+q))\
+q).z.x
+"C:/OnDiskDB/sym"
+q)system"l C:/OnDiskDB/sym"
+k){if[$[1>@d:!f:-1!x;1;`.d~*d];:.[$[qt d;*|`\:f;`.];();:;d:. f]];d@:&~d like"*$";p:(d=`par.txt)|d like"[0-9]*";
+ ."\\cd ",$x;{.q.set[x]$[0h>@!a:-1!x;. a;a`]}'d@&~(d=`html)|p|s:"."in'$d;if[|/p;L d@&p];if[~`.=x;(."\\l ",$:)'d@&s&~p];}
+'C:/OnDiskDB/sym. OS reports: The filename, directory name, or volume label syntax is incorrect.
+.:
+`:C:/OnDiskDB/sym
+q.Q))\
+q)system"l C:/OnDiskDB
+'"
+q)system"l C:/OnDiskDB"
+q).Q.pt
+q)sym
+'sym
+q).u
+'.u
+q).global.name:`hdb
+q)
+
+
+
+
+/RDB
+Microsoft Windows [Version 10.0.17134.706]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Users\jason>cd C:\q\w32\kdbTickBuild
+
+C:\q\w32\kdbTickBuild>q tick/r.q localhost:5000 localhost:5002 -p 5001
+KDB+ 3.4 2017.02.11 Copyright (C) 1993-2017 Kx Systems
+w32/ 4()core 3977MB jason laptop-rnakd9nc 192.168.1.131 NONEXPIRE
+
+Welcome to kdb+ 32bit edition
+For support please see http://groups.google.com/d/forum/personal-kdbplus
+Tutorials can be found at http://code.kx.com/wiki/Tutorials
+To exit, type \\
+To remove this startup msg, edit q.q
+q).z.W
+584|
+q)584".global.name"
+`tp
+q)
