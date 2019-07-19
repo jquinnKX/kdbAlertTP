@@ -1,4 +1,0 @@
-.u.upd[`trade;value first ([]time:0D+.z.t;sym:`a`a;price:1.2;size:100 200i)]
-
-test:get hsym`$"C:/OnDiskDB/sym2019.05.09"
-
