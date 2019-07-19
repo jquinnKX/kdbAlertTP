@@ -1,5 +1,0 @@
-dxOrderPublic:`transactTime`sym`eventID`orderID`executionOptions`eventType`orderType`side`limitPrice`originalQuantity`grossNotionalValue`fillPrice`fillQuantity`totalExecQuantity`remainingQuantity`avgPrice`sourceFile xcol ([]`timestamp$();`symbol$();`long$();`long$();`symbol$();`symbol$();`symbol$();`symbol$();`float$();`float$();`float$();`float$();`float$();`float$();`float$();`float$();`symbol$())
-dxTradePublic:`transactTime`sym`eventID`eventType`price`quantity`buyOrderID`sellOrderID`sourceFile xcol ([]`timestamp$();`symbol$();`long$();`symbol$();`float$();`float$();`long$();`long$();`symbol$());
-dxATAlert:`transactTime`sym`alertTime`alertEngine`eventID`orderID`executionOptions`eventType`orderType`orderCount`totalOrderQty`totalOrderValue`tradeCount`totalTradeQty`totalTradeValue xcol ([]`timestamp$();`symbol$();`timestamp$();`symbol$();`long$();`long$();`symbol$();`symbol$();`symbol$();`long$();`float$();`float$();`long$();`float$();`float$());
-
-.schema.schemas:(`dxOrderPublic`dxTradePublic`dxATAlert)!(dxOrderPublic;dxTradePublic;dxATAlert);
