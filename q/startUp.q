@@ -24,7 +24,7 @@ show"Input Options Are:";
 if[not `processLogs in `$system"ls $HOME/kdbAlertTP";system"mkdir $HOME/kdbAlertTP/processLogs";];
 if[not `tableImages in `$system"ls $HOME/kdbAlertTP";system"mkdir $HOME/kdbAlertTP/tableImages";];
 if[not `statsTables in `$system"ls $HOME/kdbAlertTP";system"mkdir $HOME/kdbAlertTP/statsTables";];
-
+.global.sleepAfterProcess:{system"sleep 1"};
 system"c 50 1000";
 system"p ",string[55555+.proc.portNumberIncrement];
 `processStatus upsert ([]name:enlist`master;port:55555+.proc.portNumberIncrement;handle:0;PID:0".z.i";lastHeartBeatReceived:0Np);
@@ -32,24 +32,28 @@ system"p ",string[55555+.proc.portNumberIncrement];
 /start alertMonitor
 show"Starting Alert Monitor";
 system"q am.q -p ",string[9999+.proc.portNumberIncrement];
+.global.sleepAfterProcess[];
 am:hopen`$"::",string[9999+.proc.portNumberIncrement];
 `processStatus upsert ([]name:enlist`alertMonitor;port:9999+.proc.portNumberIncrement;handle:am;PID:am".z.i";lastHeartBeatReceived:0Np);
 
 /start TP
 show"Starting TP";
 system"q tick.q sym $HOME/kdbAlertTP/OnDiskDB -p ",string[5000+.proc.portNumberIncrement];
+.global.sleepAfterProcess[];
 tp:hopen`$"::",string[5000+.proc.portNumberIncrement];
 `processStatus upsert ([]name:enlist`tp;port:5000+.proc.portNumberIncrement;handle:tp;PID:tp".z.i";lastHeartBeatReceived:0Np);
 
 /start HDB
 show"Starting HDB";
 system"q hdb.q $HOME/kdbAlertTP/OnDiskDB/sym -p ",string[5001+.proc.portNumberIncrement];
+.global.sleepAfterProcess[];
 hdb:hopen`$"::",string[5001+.proc.portNumberIncrement];
 `processStatus upsert ([]name:enlist`hdb;port:5001+.proc.portNumberIncrement;handle:hdb;PID:hdb".z.i";lastHeartBeatReceived:0Np);
 
 /start RDB
 show"Starting RDB";
 system"q r.q localhost:",string[5000+.proc.portNumberIncrement]," localhost:",string[5001+.proc.portNumberIncrement]," -p ",string[5002+.proc.portNumberIncrement];
+.global.sleepAfterProcess[];
 rdb:hopen`$"::",string[5002+.proc.portNumberIncrement];
 `processStatus upsert ([]name:enlist`rdb;port:5002+.proc.portNumberIncrement;handle:rdb;PID:rdb".z.i";lastHeartBeatReceived:0Np);
 
@@ -72,6 +76,7 @@ if[.global.excludeEachLoopTest;
     startupCommand:"q -procName ",x[0]," -freq ",string[freq]," -alertFunction ",x[2]," -replayStartTime ",string[.global.replayStartTime]," -testStartTime ",string[.global.testStartTime]," -portNumberIncrement ",string[.proc.portNumberIncrement]," -p ",string[x[1]]," -s ",string[numberOfSlaves];
     show startupCommand;
     system startupCommand;
+    .global.sleepAfterProcess[];
     (`$x[0])set hopen`$"::",string[x[1]];    
     `processStatus upsert ([]name:enlist(`$x[0]);port:x[1];handle:get[`$x[0]];PID:get[`$x[0]]".z.i";lastHeartBeatReceived:0Np);
     neg[get`$x[0]]({system"l ae.q"};`);
@@ -86,6 +91,7 @@ $[.global.replayLogFileOnly;
     [
         startUpCommand:"q -p ",string[5100+.proc.portNumberIncrement]," -createMemberIDs ",string[.global.createMemberIDs],"b -replayDataFromCurrentTime ",string[.global.replayDataFromCurrentTime],"b -procName replay -replayFinishTime ",string[.global.replayFinishTime]," -replayLogFileOnly ",string[.global.replayLogFileOnly],"b"," -portNumberIncrement ",string[.proc.portNumberIncrement];
         system[startUpCommand];
+        .global.sleepAfterProcess[];
         replay:hopen`$"::",string[5100+.proc.portNumberIncrement];
         `processStatus upsert ([]name:enlist`replay;port:5100+.global.replayLogFileOnly;handle:replay;PID:replay".z.i";lastHeartBeatReceived:0Np);
         neg[replay]({system"l replayData.q"};`);
@@ -95,11 +101,8 @@ $[.global.replayLogFileOnly;
 show .z.P;
 show processStatus;
 
-.master.onDiskTablePath:hsym`$"C:\\OnDiskDB\\processStatus_",ssr[;":";""]string[.z.P];
-
 .z.ts:{
     @[{neg[x]({neg[.z.w]({[x;y]update lastHeartBeatReceived:.z.P,status:y from `processStatus where handle=x;};x;@[{last[dxReplayStatus[`sym]]};`;`])};x)};;`down]each exec handle from processStatus;
-    /.master.onDiskTablePath set processStatus;
     if[enlist[`engineFinished]~exec distinct status from processStatus where name like "ae*";
         show"All Engines Finished - Shutting Down";
         system"l shutDown.q";  
