@@ -57,9 +57,7 @@ upd:{[t;x]
                 [
                     select transactTime,sym,eventID,orderID,executionOptions,eventType,orderType from dxOrderPublic where 
                         eventID>.ae.lastEventAnalysed,
-                        not[executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")]
-                        or (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel"))
-                        and not ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
+                        not (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")) and ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
                         transactTime<.ae.nextIntradayTransactionTimeRunPoint-0D00:00:10*not endOfReplay,
                         eventType=`Place
                 ]

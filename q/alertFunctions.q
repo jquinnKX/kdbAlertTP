@@ -9,9 +9,7 @@
         [
             update rn:i from select sym,transactTime,limitPrice,originalQuantity,side from dxOrderPublic where 
                 transactTime>=min[data[`transactTime]]-(0D00:05+00:00:10),
-                not[executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")]
-                or (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel"))
-                and not ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
+                not (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")) and ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
                 eventType=`Place
         ]
     ];
@@ -55,14 +53,12 @@
         [
             update rn:i from select sym,transactTime,eventID,limitPrice,originalQuantity,side from dxOrderPublic where 
                     transactTime>=min[data[`transactTime]]-(0D00:05+00:00:10),
-                    not[executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")]
-                    or (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel"))
-                    and not ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
+                    not (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")) and ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
                     eventType=`Place
         ]
     ];
 
-    eventWindows:(lookupTable[`eventID]@/:lookupTable[`transactTime] binr windows[0];data[`eventID]);
+    eventWindows:(lookupTable[`eventID] lookupTable[`transactTime] binr windows[0];data[`eventID]);
 
     data:(cols[data],`orderCount`totalOrderQty`totalOrderValue`orderCountsPerSide`bestBidAsk) xcol 
         wj1[
@@ -76,7 +72,7 @@
          ];
 
     lookupTable:update rn:i from ?[dxTradePublic;enlist((';~:;<);`transactTime;min[data`transactTime]-0D00:05);0b;({x!x}`sym`transactTime`price`quantity`eventID)];
-    eventWindows:(lookupTable[`eventID]@/:lookupTable[`transactTime] binr windows[0];data[`eventID]);
+    eventWindows:(lookupTable[`eventID] lookupTable[`transactTime] binr windows[0];data[`eventID]);
 
     data:(cols[data],`tradeCount`totalTradeQty`totalTradeValue) xcol 
         wj1[
@@ -104,9 +100,7 @@
         [
             update rn:i from select sym,transactTime,eventID,limitPrice,originalQuantity,side from dxOrderPublic where 
                     transactTime>=min[data[`transactTime]]-(0D00:05+00:00:10),
-                    not[executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")]
-                    or (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel"))
-                    and not ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
+                    not (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")) and ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
                     eventType=`Place
         ]
     ];
@@ -115,17 +109,17 @@
 
     data:update 
         orderCount:count each rowsInWindow,
-        totalOrderQty:sum each lookupTable[`originalQuantity]@/:rowsInWindow,
-        totalOrderValue:sum each (lookupTable[`originalQuantity]@/:rowsInWindow)*lookupTable[`limitPrice]@/:rowsInWindow,
-        orderCountsPerSide:count each' group each lookupTable[`side]@/:rowsInWindow,
-        bestBidAsk:{(max;min)@''`side xgroup ([]side:`buy`sell,x;price:0.0,0.0,y)}'[lookupTable[`side]@/:rowsInWindow;lookupTable[`limitPrice]@/:rowsInWindow]
+        totalOrderQty:sum each lookupTable[`originalQuantity] rowsInWindow,
+        totalOrderValue:sum each prd lookupTable[`limitPrice`originalQuantity]@\:rowsInWindow,
+        orderCountsPerSide:count each' group each lookupTable[`side] rowsInWindow,
+        bestBidAsk:{(max;min)@''`side xgroup ([]side:`buy`sell,x;price:0.0,0.0,y)}' . lookupTable[`side`limitPrice]@\:rowsInWindow;
     from data;
 
     lookupTable:?[dxTradePublic;enlist((';~:;<);`transactTime;min[data`transactTime]-0D00:05);0b;({x!x}`sym`transactTime`price`quantity`eventID)];
 
     rowsInWindow:.ae.getRowsInTimeWindow_cutoff1G[windows;data;lookupTable];
 
-    data:update tradeCount:count each rowsInWindow,totalTradeQty:sum each lookupTable[`quantity]@/:rowsInWindow,totalTradeValue:sum each (lookupTable[`quantity]@/:rowsInWindow)*lookupTable[`price]@/:rowsInWindow  from data;
+    data:update tradeCount:count each rowsInWindow,totalTradeQty:sum each lookupTable[`quantity] rowsInWindow,totalTradeValue:sum each prd lookupTable[`quantity`price]@\:rowsInWindow from data;
 
     .ae.orderToTrade_checkAgainstThresholds[data];
 
@@ -153,9 +147,7 @@
             from dxOrderPublic where 
                 transactTime>=data[`transactTime]-(0D00:05+00:00:10),
                 sym=data[`sym],
-                not[executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")]
-                or (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel"))
-                and not ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
+                not (executionOptions in `$("fill-or-kill";"immediate-or-cancel";"maker-or-cancel")) and ({`Place`Cancel~x};eventType)fby ([]orderID;transactTime),
                 eventType=`Place,
                 transactTime within (data[`transactTime]-0D00:05;data[`transactTime]),eventID<=data[`eventID]
         ]
@@ -223,28 +215,4 @@
     rightCutOff:(count each rowsMatchingSym)-1+rowsMatchingSym bin'lastRowInWindow;
     (leftCutOff)_'neg[rightCutOff]_'rowsMatchingSym
    
- };
-
-.ae.getRowsInTimeWindow_cutoff2:{[windows;sourceTable;lookupTable]
-
-    firstRowInWindow:lookupTable[`transactTime] binr windows[0];
-    lastRowInWindow:lookupTable[`eventID] bin sourceTable[`eventID];
-
-    rowsMatchingSym:?[lookupTable;enlist(in;`sym;enlist distinct[sourceTable[`sym]]);{x!x}enlist`sym;(`rows`count)!(`i;(count;`i))]@/:sourceTable[`sym];
-
-    leftCutOff:rowsMatchingSym[`rows] binr'firstRowInWindow;
-    rightCutOff:(0^rowsMatchingSym[`count])-1+rowsMatchingSym[`rows] bin'lastRowInWindow;
-    (leftCutOff)_'neg[rightCutOff]_'rowsMatchingSym[`rows]   
- };
-
-.ae.getRowsInTimeWindow_cutoff2G:{[windows;sourceTable;lookupTable]
-
-    firstRowInWindow:lookupTable[`transactTime] binr windows[0];
-    lastRowInWindow:lookupTable[`eventID] bin sourceTable[`eventID];
-
-    rowsMatchingSym:group[exec sym from lookupTable]@/:sourceTable[`sym];
-
-    leftCutOff:rowsMatchingSym binr'firstRowInWindow;
-    rightCutOff:(count each rowsMatchingSym)-1+rowsMatchingSym bin'lastRowInWindow;
-    (leftCutOff)_'neg[rightCutOff]_'rowsMatchingSym
  };
