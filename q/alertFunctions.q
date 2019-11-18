@@ -112,7 +112,7 @@
         totalOrderQty:sum each lookupTable[`originalQuantity] rowsInWindow,
         totalOrderValue:sum each prd lookupTable[`limitPrice`originalQuantity]@\:rowsInWindow,
         orderCountsPerSide:count each' group each lookupTable[`side] rowsInWindow,
-        bestBidAsk:{(max;min)@''`side xgroup ([]side:`buy`sell,x;price:0.0,0.0,y)}' . lookupTable[`side`limitPrice]@\:rowsInWindow;
+        bestBidAsk:{(max;min)@''`side xgroup ([]side:`buy`sell,x;price:0.0,0.0,y)} .' flip lookupTable[`side`limitPrice]@\:rowsInWindow
     from data;
 
     lookupTable:?[dxTradePublic;enlist((';~:;<);`transactTime;min[data`transactTime]-0D00:05);0b;({x!x}`sym`transactTime`price`quantity`eventID)];

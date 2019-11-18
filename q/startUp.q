@@ -86,7 +86,7 @@ alertEngineNamesAndPortsAndFunctions:(
  ("aeID1_5";5011+.proc.portNumberIncrement;".ae.orderToTrade_wj_alert";.proc.TP_childAPort);("aeID2_5";5012+.proc.portNumberIncrement;".ae.orderToTrade_wj_eventWindow_alert";.proc.TP_childAPort);("aeID3_5";5013+.proc.portNumberIncrement;".ae.orderToTrade_getRows_alert";.proc.TP_childAPort);("aeID4_5";5014+.proc.portNumberIncrement;".ae.orderToTrade_oneAtATime_alert";.proc.TP_childAPort);
  ("aeID1_10";5015+.proc.portNumberIncrement;".ae.orderToTrade_wj_alert";.proc.TP_childBPort);("aeID2_10";5016+.proc.portNumberIncrement;".ae.orderToTrade_wj_eventWindow_alert";.proc.TP_childBPort);("aeID3_10";5017+.proc.portNumberIncrement;".ae.orderToTrade_getRows_alert";.proc.TP_childBPort);("aeID4_10";5018+.proc.portNumberIncrement;".ae.orderToTrade_oneAtATime_alert";.proc.TP_childBPort));
 
-intradayFrequencyDict:(-1;0;1;5;10)!(til[16];(0;1;2;3);(4;5;6;7);(8;9;10;11);(12;13;14;15));
+intradayFrequencyDict:(99;0;1;5;10)!(til[16];(0;1;2;3);(4;5;6;7);(8;9;10;11);(12;13;14;15));
 alertEngineNamesAndPortsAndFunctions:alertEngineNamesAndPortsAndFunctions[intradayFrequencyDict[.proc.intradayFrequency]];
 
 if[not .global.includeEachLoopTest;
