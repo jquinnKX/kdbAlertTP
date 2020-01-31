@@ -1,5 +1,5 @@
 # kdbAlertTP
-TP set-up for test Alert Monitor system
+TP set-up for test Alert Monitor system.
 
 This framework is an expansion of the skeleton TP framework available at
 https://code.kx.com/v2/wp/building_real_time_tick_subscribers.pdf
